@@ -1,5 +1,4 @@
 undefined4 main(void)
-
 {
   uint __seed;
   
@@ -16,7 +15,6 @@ undefined4 main(void)
 
 
 void test(int param_1,int param_2)
-
 {
   EVP_PKEY_CTX *pEVar1;
   uchar *in_stack_ffffffd8;
@@ -79,7 +77,6 @@ void test(int param_1,int param_2)
 }
 
 int decrypt(EVP_PKEY_CTX *ctx,uchar *out,size_t *outlen,uchar *in,size_t inlen)
-
 {
   byte bVar1;
   uint uVar2;
