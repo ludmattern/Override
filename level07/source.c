@@ -1,6 +1,5 @@
 
 undefined4 main(undefined4 param_1,int *param_2,int *param_3)
-
 {
   char cVar1;
   byte bVar2;
@@ -178,7 +177,6 @@ undefined4 main(undefined4 param_1,int *param_2,int *param_3)
 
 
 undefined4 store_number(int param_1)
-
 {
   uint uVar1;
   uint uVar2;
@@ -202,7 +200,6 @@ undefined4 store_number(int param_1)
 }
 
 undefined4 read_number(int param_1)
-
 {
   int iVar1;
   
@@ -214,7 +211,6 @@ undefined4 read_number(int param_1)
 
 
 undefined4 get_unum(void)
-
 {
   undefined4 local_10 [3];
   
