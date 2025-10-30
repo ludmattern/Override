@@ -63,3 +63,49 @@ undefined8 main(int param_1,undefined8 *param_2)
   }
   return 0;
 }
+
+
+void log_wrapper(FILE *param_1,char *param_2,char *param_3)
+
+{
+  char cVar1;
+  size_t sVar2;
+  ulong uVar3;
+  ulong uVar4;
+  char *pcVar5;
+  long in_FS_OFFSET;
+  byte bVar6;
+  undefined8 local_120;
+  char local_118 [264];
+  long local_10;
+  
+  bVar6 = 0;
+  local_10 = *(long *)(in_FS_OFFSET + 0x28);
+  local_120 = param_1;
+  strcpy(local_118,param_2);
+  uVar3 = 0xffffffffffffffff;
+  pcVar5 = local_118;
+  do {
+    if (uVar3 == 0) break;
+    uVar3 = uVar3 - 1;
+    cVar1 = *pcVar5;
+    pcVar5 = pcVar5 + (ulong)bVar6 * -2 + 1;
+  } while (cVar1 != '\0');
+  uVar4 = 0xffffffffffffffff;
+  pcVar5 = local_118;
+  do {
+    if (uVar4 == 0) break;
+    uVar4 = uVar4 - 1;
+    cVar1 = *pcVar5;
+    pcVar5 = pcVar5 + (ulong)bVar6 * -2 + 1;
+  } while (cVar1 != '\0');
+  snprintf(local_118 + (~uVar4 - 1),0xfe - (~uVar3 - 1),param_3);
+  sVar2 = strcspn(local_118,"\n");
+  local_118[sVar2] = '\0';
+  fprintf(local_120,"LOG: %s\n",local_118);
+  if (local_10 != *(long *)(in_FS_OFFSET + 0x28)) {
+                    /* WARNING: Subroutine does not return */
+    __stack_chk_fail();
+  }
+  return;
+}
