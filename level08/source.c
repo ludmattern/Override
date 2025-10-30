@@ -1,111 +1,77 @@
-undefined8 main(int param_1,undefined8 *param_2)
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void secret_backdoor(void)
 {
-  char cVar1;
-  int __fd;
-  int iVar2;
-  FILE *pFVar3;
-  FILE *__stream;
-  ulong uVar4;
-  char *pcVar5;
-  long in_FS_OFFSET;
-  byte bVar6;
-  char local_79;
-  char local_78 [104];
-  long local_10;
-  
-  bVar6 = 0;
-  local_10 = *(long *)(in_FS_OFFSET + 0x28);
-  local_79 = -1;
-  if (param_1 != 2) {
-    printf("Usage: %s filename\n",*param_2);
-  }
-  pFVar3 = fopen("./backups/.log","w");
-  if (pFVar3 == (FILE *)0x0) {
-    printf("ERROR: Failed to open %s\n","./backups/.log");
-                    /* WARNING: Subroutine does not return */
-    exit(1);
-  }
-  log_wrapper(pFVar3,"Starting back up: ",param_2[1]);
-  __stream = fopen((char *)param_2[1],"r");
-  if (__stream == (FILE *)0x0) {
-    printf("ERROR: Failed to open %s\n",param_2[1]);
-                    /* WARNING: Subroutine does not return */
-    exit(1);
-  }
-  builtin_strncpy(local_78,"./backups/",0xb);
-  uVar4 = 0xffffffffffffffff;
-  pcVar5 = local_78;
-  do {
-    if (uVar4 == 0) break;
-    uVar4 = uVar4 - 1;
-    cVar1 = *pcVar5;
-    pcVar5 = pcVar5 + (ulong)bVar6 * -2 + 1;
-  } while (cVar1 != '\0');
-  strncat(local_78,(char *)param_2[1],99 - (~uVar4 - 1));
-  __fd = open(local_78,0xc1,0x1b0);
-  if (__fd < 0) {
-    printf("ERROR: Failed to open %s%s\n","./backups/",param_2[1]);
-                    /* WARNING: Subroutine does not return */
-    exit(1);
-  }
-  while( true ) {
-    iVar2 = fgetc(__stream);
-    local_79 = (char)iVar2;
-    if (local_79 == -1) break;
-    write(__fd,&local_79,1);
-  }
-  log_wrapper(pFVar3,"Finished back up ",param_2[1]);
-  fclose(__stream);
-  close(__fd);
-  if (local_10 != *(long *)(in_FS_OFFSET + 0x28)) {
-                    /* WARNING: Subroutine does not return */
-    __stack_chk_fail();
-  }
-  return 0;
+    char buffer[128];
+    
+    fgets(buffer, 0x80, stdin);
+    system(buffer);
 }
 
-
-void log_wrapper(FILE *param_1,char *param_2,char *param_3)
-
+void set_username(char *data)
 {
-  char cVar1;
-  size_t sVar2;
-  ulong uVar3;
-  ulong uVar4;
-  char *pcVar5;
-  long in_FS_OFFSET;
-  byte bVar6;
-  undefined8 local_120;
-  char local_118 [264];
-  long local_10;
-  
-  bVar6 = 0;
-  local_10 = *(long *)(in_FS_OFFSET + 0x28);
-  local_120 = param_1;
-  strcpy(local_118,param_2);
-  uVar3 = 0xffffffffffffffff;
-  pcVar5 = local_118;
-  do {
-    if (uVar3 == 0) break;
-    uVar3 = uVar3 - 1;
-    cVar1 = *pcVar5;
-    pcVar5 = pcVar5 + (ulong)bVar6 * -2 + 1;
-  } while (cVar1 != '\0');
-  uVar4 = 0xffffffffffffffff;
-  pcVar5 = local_118;
-  do {
-    if (uVar4 == 0) break;
-    uVar4 = uVar4 - 1;
-    cVar1 = *pcVar5;
-    pcVar5 = pcVar5 + (ulong)bVar6 * -2 + 1;
-  } while (cVar1 != '\0');
-  snprintf(local_118 + (~uVar4 - 1),0xfe - (~uVar3 - 1),param_3);
-  sVar2 = strcspn(local_118,"\n");
-  local_118[sVar2] = '\0';
-  fprintf(local_120,"LOG: %s\n",local_118);
-  if (local_10 != *(long *)(in_FS_OFFSET + 0x28)) {
-                    /* WARNING: Subroutine does not return */
-    __stack_chk_fail();
-  }
-  return;
+    char username_buffer[140];
+    int i;
+    
+    // Initialiser le buffer à zéro
+    memset(username_buffer, 0, sizeof(username_buffer));
+    
+    puts(">: Enter your username");
+    printf(">>: ");
+    fgets(username_buffer, 0x80, stdin);
+    
+    // Copier jusqu'à 41 caractères (0x29) dans data + 0x8c (offset 140)
+    for (i = 0; i < 0x29 && username_buffer[i] != '\0'; i++) {
+        data[0x8c + i] = username_buffer[i];
+    }
+    
+    printf(">: Welcome, %s", data + 0x8c);
+}
+
+void set_msg(char *data)
+{
+    char message_buffer[1024];
+    
+    // Initialiser le buffer à zéro
+    memset(message_buffer, 0, sizeof(message_buffer));
+    
+    puts(">: Msg @Unix-Dude");
+    printf(">>: ");
+    fgets(message_buffer, 0x400, stdin);
+    
+    // Copier le message en utilisant la longueur stockée à data + 0xb4 (offset 180)
+    strncpy(data, message_buffer, *(int *)(data + 0xb4));
+}
+
+void handle_msg(void)
+{
+    char buffer[140];         // local_c8
+    long padding1;            // local_3c
+    long padding2;            // local_34
+    long padding3;            // local_2c
+    long padding4;            // local_24
+    long padding5;            // local_1c
+    int msg_len;              // local_14
+    
+    padding1 = 0;
+    padding2 = 0;
+    padding3 = 0;
+    padding4 = 0;
+    padding5 = 0;
+    msg_len = 0x8c;  // 140 en décimal
+    
+    set_username(buffer);
+    set_msg(buffer);
+    puts(">: Msg sent!");
+}
+
+int main(void)
+{
+    puts("--------------------------------------------\n"
+         "|   ~Welcome to l33t-m$n ~    v1337        |\n"
+         "--------------------------------------------");
+    handle_msg();
+    return 0;
 }
