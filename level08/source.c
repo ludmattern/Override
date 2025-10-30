@@ -1,5 +1,4 @@
 undefined8 main(int param_1,undefined8 *param_2)
-
 {
   char cVar1;
   int __fd;
