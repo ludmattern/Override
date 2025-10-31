@@ -52,7 +52,7 @@ void test(int param_1, int param_2)
 
 void decrypt(int xor_key)
 {
-    /* hard-coded encrypted buffer */
+    /* hard-coded encrypted buffer string --> Q}|u`sfg~sf{}|a3 */
     char encrypted[17] = {
         0x51, 0x7d, 0x7c, 0x75, 0x60, 0x73, 0x66, 0x67,
         0x7e, 0x73, 0x66, 0x7b, 0x7d, 0x7c, 0x61, 0x33, 0x00
@@ -165,7 +165,7 @@ Verify:
 
 Password found: **322424827**
 
-### Exploitation example
+### Exploitation
 
 ```bash
 level03@OverRide:~$ ./level03
@@ -179,6 +179,4 @@ $ cat /home/users/level04/.pass
 kgv3tkEb9h2mLkRsPkXRfc2mHbjMxQzvb2FrgKkf
 ```
 
-### token
-
-Token found `kgv3tkEb9h2mLkRsPkXRfc2mHbjMxQzvb2FrgKkf`
+Token found : `kgv3tkEb9h2mLkRsPkXRfc2mHbjMxQzvb2FrgKkf`
